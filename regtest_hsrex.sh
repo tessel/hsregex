@@ -13,9 +13,9 @@
 #
 H=$HOME
 me=`basename $0`
-rgsrc=regtest_hsrex.c
+rgsrc=src/regtest_hsrex.c
 rgbin=regtest_hsrex
-datsrc=regtest_data.c
+datsrc=src/regtest_data.c
 datbin=regtest_data
 CC=gcc
 
@@ -311,4 +311,8 @@ test -z "$resp" && f_ok "$msg" || f_no "$msg" "$resp"
 resp=`$rgbin 1 "(?i)(clavo)" "Pablito ClAvO un clavito" 2>&1`
 msg="One group pattern with case-insensitive matching"
 test "$resp" = "ClAvO" && f_ok "$msg" || f_no "$msg" "$resp"
+#-----------------------------------
+resp=`$rgbin 1 "(?i)(\d+)" "numbers 1234 numbers" 2>&1`
+msg="Digit character class as in JavaScript"
+test "$resp" = "1234" && f_ok "$msg" || f_no "$msg" "$resp"
 #-----------------------------------

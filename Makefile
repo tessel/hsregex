@@ -4,7 +4,7 @@ CC = gcc
 # Or this one
 CFLAGS = -DREGEX_STANDALONE -fPIC -D_NDEBUG -O3
 LDFLAGS = -shared
-SRCS = regcomp.c regexec.c regerror.c regfree.c regalone.c
+SRCS = src/regcomp.c src/regexec.c src/regerror.c src/regfree.c src/regalone.c
 OBJS = $(SRCS:.c=.o)
 BINS = libhsrex.so libhswrex.so
 all:
