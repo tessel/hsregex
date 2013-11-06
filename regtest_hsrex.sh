@@ -84,7 +84,7 @@ cat<<-EOF>$rgsrc
 		size_t	len;
 		s = xs = src;
 		len = 0;
-		while ( s = strstr(s, "\\\x") )
+		while ( (s = strstr(s, "\\\x")) )
 		{
 			int	cbin;
 			sscanf(&s[2], "%2x", &cbin);
@@ -107,7 +107,7 @@ cat<<-EOF>$rgsrc
 	#	endif
 		return len;
 	}
-	main(int argc, char *argv[])
+	int main(int argc, char *argv[])
 	{
 		chr		re[1024*4], dat[1024*8];
 		size_t		relen, datlen;
@@ -121,7 +121,7 @@ cat<<-EOF>$rgsrc
 		relen = hexescapes2bin(re, argv[2], sizeof(re)/sizeof(chr));
 		datlen = hexescapes2bin(dat, argv[3], sizeof(dat)/sizeof(chr));
 		cflags = REG_ADVANCED | (nmatch ? 0 : REG_NOSUB);
-		rc = re_comp(&cre, re, relen, cflags);
+		rc = re_comp(&cre, (const unsigned char *) re, relen, cflags);
 		if ( rc != REG_OKAY )
 		{
 			regerror(rc, &cre, buf, sizeof(buf));
@@ -131,12 +131,12 @@ cat<<-EOF>$rgsrc
 		if ( nmatch >= 0 && cre.re_nsub != nmatch )
 		{
 			fprintf(stderr,
-				"Mismatch on number of group patterns. ",
-				"Expected %d, compiled %d\n",
+				"Mismatch on number of group patterns. "
+				"Expected %d, compiled %zu\n",
 				nmatch, cre.re_nsub);
 			exit(1);
 		}
-		rc = re_exec(&cre, dat, datlen, NULL, 100, pmatch, 0);
+		rc = re_exec(&cre, (const unsigned char *) dat, datlen, NULL, 100, pmatch, 0);
 		if ( rc != REG_OKAY )
 		{
 			regerror(rc, &cre, buf, sizeof(buf));
@@ -151,7 +151,7 @@ cat<<-EOF>$rgsrc
 			for ( i=1; i<cre.re_nsub+1 && pmatch[i].rm_so>=0; i++ )
 				sprintf(&buf[strlen(buf)], "%s%.*s",
 					i>1 ? ":" : "",
-					pmatch[i].rm_eo-pmatch[i].rm_so,
+					(int) (pmatch[i].rm_eo-pmatch[i].rm_so),
 					argv[3]+pmatch[i].rm_so);
 			printf("%s\n", buf);
 		}
@@ -222,7 +222,7 @@ cat<<-EOF>$datsrc
 	#endif
 	char	nums[] = "0123456789";
 	char	alph[] = "abcdefghijklmnopqrstuvwxyz";
-	main(int argc, char *argv[])
+	int main(int argc, char *argv[])
 	{
 		char	dat[16], *arr;
 		int	arrsz, datsz, i;
