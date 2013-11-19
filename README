@@ -1,6 +1,6 @@
+# hsregex
 
-This is a port to make standalone available the Henry Spencer's Regex Library
-from Tcl 8.6a2.
+This is a standalone library, originally a port of Henry Spencer's Regex Library from Tcl 8.6a2.
 
 In the hope that the Tcl developers take this port as the base for their RE
 module, great effort was paid to not update the *.c files, sadly it was not
