@@ -256,6 +256,12 @@ static const chr brbacks[] = {	/* \s within brackets */
     CHR('s'), CHR('p'), CHR('a'), CHR('c'), CHR('e'),
     CHR(':'), CHR(']')
 };
+static const chr brbackS[] = {	/* \s within brackets */
+    CHR('['), CHR(':'),
+    CHR('n'), CHR('o'),
+    CHR('s'), CHR('p'), CHR('a'), CHR('c'), CHR('e'),
+    CHR(':'), CHR(']')
+};
 static const chr backw[] = {	/* \w */
     CHR('['), CHR('['), CHR(':'),
     CHR('a'), CHR('l'), CHR('n'), CHR('u'), CHR('m'),
@@ -456,6 +462,9 @@ next(
 		    break;
 		case 's':
 		    lexnest(v, brbacks, ENDOF(brbacks));
+		    break;
+		case 'S':
+		    lexnest(v, brbackS, ENDOF(brbackS));
 		    break;
 		case 'w':
 		    lexnest(v, brbackw, ENDOF(brbackw));

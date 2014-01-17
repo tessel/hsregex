@@ -162,6 +162,12 @@ static const crange spaceRangeTable[] = {
 
 #define NUM_SPACE_RANGE (sizeof(spaceRangeTable)/sizeof(crange))
 
+static const crange noSpaceRangeTable[] = {
+    {0x00, 0x08}, {0x0e, 0x1f}, {0x21, 0xff}
+};
+
+#define NUM_NOSPACE_RANGE (sizeof(noSpaceRangeTable)/sizeof(crange))
+
 static const chr spaceCharTable[] = {
     0x20
 };
@@ -348,6 +354,14 @@ static const chr spaceCharTable[] = {
 };
 
 #define NUM_SPACE_CHAR (sizeof(spaceCharTable)/sizeof(chr))
+
+static const crange noSpaceRangeTable[] = {
+    {0x0000, 0x0008}, {0x000e, 0x001f}, {0x0021, 0x009f},
+    {0x00a1, 0x167f}, {0x1681, 0x1fff}, {0x200c, 0x2027},
+    {0x202a, 0x202e}, {0x2030, 0x2fff}, {0x3001, 0xffff}
+};
+
+#define NUM_NOSPACE_RANGE (sizeof(noSpaceRangeTable)/sizeof(crange))
 
 /*
  * Unicode: lowercase characters
@@ -888,12 +902,12 @@ cclass(
 
     static const char *classNames[] = {
 	"alnum", "alpha", "ascii", "blank", "cntrl", "digit", "graph",
-	"lower", "print", "punct", "space", "upper", "xdigit", NULL
+	"lower", "print", "punct", "space", "upper", "xdigit", "nospace", NULL
     };
 
     enum classes {
 	CC_ALNUM, CC_ALPHA, CC_ASCII, CC_BLANK, CC_CNTRL, CC_DIGIT, CC_GRAPH,
-	CC_LOWER, CC_PRINT, CC_PUNCT, CC_SPACE, CC_UPPER, CC_XDIGIT
+	CC_LOWER, CC_PRINT, CC_PUNCT, CC_SPACE, CC_UPPER, CC_XDIGIT, CC_NOSPACE
     };
 
 
@@ -1042,6 +1056,15 @@ cclass(
 	    }
 	}
 	break;
+    case CC_NOSPACE:
+    cv = getcvec(v, 0, NUM_NOSPACE_RANGE);
+    if (cv) {
+        for (i=0 ; (size_t)i<NUM_NOSPACE_RANGE ; i++) {
+        addrange(cv, noSpaceRangeTable[i].start,
+            noSpaceRangeTable[i].end);
+        }
+    }
+    break;
     case CC_LOWER:
 	cv  = getcvec(v, NUM_LOWER_CHAR, NUM_LOWER_RANGE);
 	if (cv) {
