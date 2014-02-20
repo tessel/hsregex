@@ -163,9 +163,9 @@ PATH=.:$PATH
 LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
 export PATH LD_LIBRARY_PATH
 # Either this one
-$CC -I. -I$H/inc -L. -lhsrex -o $rgbin $rgsrc			# Test ascii ch
+#$CC -I. -I$H/inc -L. -lhsrex -o $rgbin $rgsrc			# Test ascii ch
 # Or this one
-#$CC -I. -I$H/inc -L. -lhswrex -DREGEX_WCHAR -o $rgbin $rgsrc	# Test wide ch
+$CC -I. -I$H/inc -L. -lhswrex -DREGEX_WCHAR -o $rgbin $rgsrc	# Test wide ch
 #-----------------------------------
 resp=`$rgbin 0 "clavo" "Pablito clavo un clavito" 2>&1`
 msg="Simple match"
