@@ -120,7 +120,7 @@ extern "C" {
 #	define regfree	re_free
 #	define regerror	re_error
 #	undef __REG_WIDE_T
-#	define __REG_WIDE_T		wchar_t
+#	define __REG_WIDE_T		chr
 #	undef __REG_WIDE_COMPILE
 #	define __REG_WIDE_COMPILE	re_wcomp
 #	undef __REG_WIDE_EXEC
