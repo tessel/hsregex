@@ -8,15 +8,16 @@
 # define	REGEX_STANDALONE
 #endif
 
+#include <stdint.h>
 #ifdef REGEX_WCHAR
 #	include <wctype.h>
 #	include <wchar.h>
-	typedef wchar_t chr;
+	typedef REGEX_WCHAR chr;
 	typedef chr Tcl_UniChar;
 #else
 #	include <ctype.h>
 	typedef unsigned char chr;
-	typedef wchar_t Tcl_UniChar;
+	typedef uint32_t Tcl_UniChar;
 #endif
 
 /*
